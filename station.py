@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     # parser.add_argument('--image', type=str, help='Docker Image Name')
     # parser.add_argument('--tag', type=str, help='Docker Image Tag')
-    parser.add_argument('--path', type=str, help='Path to OCI Image')
+    parser.add_argument('--path', type=str, help='Path to OCI Image', default='.')
 
     args = parser.parse_args()
 
@@ -63,5 +63,5 @@ if __name__ == '__main__':
     diff = ImageDiff(index, oci_layout, newer, config, layers)
 
     # step 4. exec tar command to tar the diff
-    res = subprocess.run(['tar', '-czf', 'diff.tar.gz', diff.index, diff.config, diff.oci_layout, diff.index] + diff.layers)
+    res = subprocess.run(['tar', '-czf', 'diff.tar.gz', diff.index, diff.config, diff.oci_layout, diff.index, diff.menifest] + diff.layers)
 
