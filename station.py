@@ -54,10 +54,19 @@ if __name__ == '__main__':
         config = path + '/' + 'blobs/' + newer_content['config']['digest'].replace(':', '/')
 
         # get layers
+        newer_layers = []
+        for item in newer_content['layers']:
+            layer = path + '/' + 'blobs/' + item['digest'].replace(':', '/')
+            newer_layers.append(layer)
+        older_layers = []
+        for item in older_content['layers']:
+            layer = path + '/' + 'blobs/' + item['digest'].replace(':', '/')
+            older_layers.append(layer)
         layers = []
-        for i in range(len(newer_content['layers']) - len(older_content['layers'])):
-            layer = path + '/' + 'blobs/' + newer_content['layers'][len(older_content['layers']) + i]['digest'].replace(':', '/')
-            layers.append(layer)
+        for item in newer_layers:
+            if item not in older_layers:
+                layers.append(item)
+
             
 
     diff = ImageDiff(index, oci_layout, newer, config, layers)
